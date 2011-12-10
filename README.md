@@ -6,4 +6,4 @@ Replay a number of commits until back to HEAD. Basically doing a checkout every 
 Handy if you have a editor that refresh automatically as you can actually see the changes in your code replayed.
 
 #### Usage
-git playback <number of commmits> [<interval in seconds>]
+git playback &lt;number of commmits> [&lt;interval in seconds>]
