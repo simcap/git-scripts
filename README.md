@@ -6,5 +6,7 @@ Replay a number of commits until back to HEAD. Basically, creating a temporary b
 
 Handy if you have an editor that refresh automatically as you can actually see the changes in your code replayed.
 
+It is preferable to be at the root of your repo when executing git playback.
+
 ### Usage
 git playback &lt;number of commmits> [&lt;interval in seconds>]
