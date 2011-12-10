@@ -1,0 +1,42 @@
+#!/bin/sh
+
+usage () {
+	echo "usage:" $@
+	exit 127
+}
+
+if test $# -lt 1 || test $# -gt 2; then
+	usage "$0 <number_of_commits> [<time_interval_in_seconds>]"
+fi
+
+TIME_INTERVAL="${2:-5}"
+
+if test -n "$(git status --porcelain)"; then
+	echo "Exit. Not a working clean directory."
+	exit 1
+fi
+
+CURRENT_BRANCH=$(git name-rev --name-only HEAD)
+
+echo "Current branch is $CURRENT_BRANCH"
+
+git checkout -b playback;
+
+echo "## STARTING (time interval of $TIME_INTERVAL seconds)"
+
+
+COMMITS=$(git log -$1 --pretty=format:'%h' --reverse)
+counter=1;
+for commit in $COMMITS
+	do git checkout $commit 2>/dev/null; 
+	echo "## Back to commit $commit ($counter/$1)"; 
+	sleep $TIME_INTERVAL
+	let "counter+=1"
+done
+
+echo "## FINISHED"
+echo "Back to $CURRENT_BRANCH branch"
+
+git checkout $CURRENT_BRANCH 2>/dev/null;
+git branch -d playback;
+
